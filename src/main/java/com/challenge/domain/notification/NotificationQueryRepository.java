@@ -45,7 +45,7 @@ public class NotificationQueryRepository {
                 .leftJoin(challenge)
                 .on(challenge.member.id.eq(member.id)
                         .and(challenge.status.eq(ChallengeStatus.ONGOING)))
-                .where(member.isNotificationReceived.eq(true))
+                .where(member.fcmToken.isNotNull())
                 .groupBy(member.id, member.fcmToken, member.nickname)
                 .having(challenge.id.count().eq(0L))
                 .fetch();
@@ -86,7 +86,7 @@ public class NotificationQueryRepository {
                 .join(member).on(challenge.member.id.eq(member.id))
                 .where(challenge.status.eq(ChallengeStatus.ONGOING),
                         lastRecordSucceed(day).eq(false),
-                        member.isNotificationReceived.eq(true))
+                        member.fcmToken.isNotNull())
                 .fetch();
 
         // 결과를 Map<String, AchieveChallengeDTO> 형태로 변환
