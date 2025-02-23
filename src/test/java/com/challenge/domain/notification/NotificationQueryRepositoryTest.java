@@ -110,6 +110,9 @@ public class NotificationQueryRepositoryTest {
             Member member = createMember(1);
             createChallenge(member, category, 1, "title1", ChallengeStatus.REMOVED, dateTime);
 
+            member.updateFcmToken(null);
+            memberRepository.save(member);
+
             // when
             Map<String, NewChallengeDTO> resultMap = notificationQueryRepository.getNewChallengeTargets();
 
@@ -242,6 +245,9 @@ public class NotificationQueryRepositoryTest {
             Member member = createMember(1);
 
             createChallenge(member, category, 1, "title1", ChallengeStatus.ONGOING, dateTime);
+
+            member.updateFcmToken(null);
+            memberRepository.save(member);
 
             // when
             Map<String, AchieveChallengeDTO> resultMap = notificationQueryRepository.getAchieveTargetsAndChallenge(
